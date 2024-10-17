@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    image: nestjs-eos-history
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/eos-actions
+    depends_on:
+      - mongo
+    volumes:
+      - .:/app
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - '27077:27017'
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
